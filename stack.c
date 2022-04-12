@@ -1,5 +1,6 @@
 #include "stack.h"
 #include <stdio.h>
+#include <stdlib.h> // provide ‘exit’
 #define STACK_SIZE 10
 
 static char stack[STACK_SIZE];
@@ -11,7 +12,7 @@ int put_stack(char ch){
 		return 0;
 	}
 	stack[pointer]=ch;
-	return 1;
+	exit(1);
 }
 
 /*
@@ -30,7 +31,7 @@ char pop_stack(){
 		return stack[pointer--];
 	else{
 		fprintf(stderr,"Stack error : stack is empty\n");
-		return '\0';
+		exit(1);
 	}
 }
 
