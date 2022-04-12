@@ -3,10 +3,10 @@
 #include <stdlib.h> // provide ‘exit’
 #define STACK_SIZE 10
 
-static int stack[STACK_SIZE];
+static STACK_TYPE stack[STACK_SIZE];
 static int pointer=-1; // current head
 
-int put_stack(int elem){
+int put_stack(STACK_TYPE elem){
 	if(++pointer >= STACK_SIZE){
 		fprintf(stderr,"Stack error : stack overflow\n");
 		return 0;
@@ -26,7 +26,7 @@ char get_stack(){
 }
 */
 
-int pop_stack(){
+STACK_TYPE pop_stack(){
 	if(pointer>=0)
 		return stack[pointer--];
 	else{
