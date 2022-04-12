@@ -2,8 +2,8 @@
 #define __stack_h__
 
 // char get_stack(); // no side effect
-char pop_stack();
-int put_stack(char ch);
+int pop_stack();
+int put_stack(int elem);
 int is_stack_empty();
 
 #endif
