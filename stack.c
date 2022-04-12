@@ -9,10 +9,10 @@ static int pointer=-1; // current head
 int put_stack(STACK_TYPE elem){
 	if(++pointer >= STACK_SIZE){
 		fprintf(stderr,"Stack error : stack overflow\n");
-		return 0;
+		exit(1);
 	}
 	stack[pointer]=elem;
-	exit(1);
+	return 1;
 }
 
 /*
