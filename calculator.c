@@ -7,16 +7,26 @@
 int is_number(char *str);
 int is_operation(char *str);
 
+void operate(char *str);
+STACK_TYPE str2number(char *str); // convert string to STACK_TYPE
+
 void read_word(char *str);
 
 int main(){
 	char str[MAX_LEN]; 
 	read_word(str);
+
 	while(str[0]!='\0'){
 		if(is_operation(str)){
-			// ...
+			operate(str); // perform operation in str
 		}
-
+		else if(is_number(str)){
+			put_stack(str2number(str));
+		}
+		else{
+			fprintf(stderr,
+				"Calculator error : Wrong operand \"%s\" ",str);
+		}
 	}
 	return 0;
 }
@@ -46,4 +56,21 @@ void read_word(char *str){
 
 int is_operation(char *str){
 	// ...
+}
+int is_number(char *str){
+	// ...
+}
+
+void operate(char *str){ // perform operation from str
+	// ...
+}
+
+STACK_TYPE str2number(char *str){
+#if STACK_TYPE==int
+	return atoi(str);
+#elif STACK_TYPE==double
+	return atof(str);
+#else
+#error Error STACK_TYPE not defined, or defined wrong
+#endif
 }
