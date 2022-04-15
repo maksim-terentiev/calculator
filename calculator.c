@@ -27,6 +27,7 @@ int main(){
 			fprintf(stderr,
 				"Calculator error : Wrong operand \"%s\" ",str);
 		}
+		read_word(str);
 	}
 	return 0;
 }
@@ -55,14 +56,37 @@ void read_word(char *str){
 }
 
 int is_operation(char *str){
-	// ...
+	if(str[0]=='+' && str[1]=='\0')
+		return 1;
+	else if(str[0]=='-' && str[1]=='\0')
+		return 1;
+	else if(str[0]=='*' && str[1]=='\0')
+		return 1;
+	else if(str[0]=='/' && str[1]=='\0')
+		return 1;
+	else
+		return 0;
 }
 int is_number(char *str){
-	// ...
+	int i;
+	for(i=0;str[i]!='\0';i++)
+		if(str[i]<'0' || str[i]>'9')
+			return 0;
+	return 1;
 }
 
 void operate(char *str){ // perform operation from str
-	// ...
+	int a,b;
+	b=pop_stack();
+	a=pop_stack();
+	if     (str[0]=='+')
+		put_stack(a+b);
+	else if(str[0]=='-')
+		put_stack(a-b);
+	else if(str[0]=='*')
+		put_stack(a*b);
+	else if(str[0]=='/')
+		put_stack(a/b);
 }
 
 STACK_TYPE str2number(char *str){
