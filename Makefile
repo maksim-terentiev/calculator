@@ -1,4 +1,8 @@
 .PHONY:	all help run clean reset
+
+#Ignore errors
+.IGNORE:	clean reset
+
 GCCOPT= -Wall
 
 all:	calculator translator
