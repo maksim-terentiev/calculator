@@ -26,6 +26,7 @@ int main(){
 		else{
 			fprintf(stderr,
 				"Calculator error : Wrong operand \"%s\" ",str);
+			exit(1);
 		}
 		read_word(str);
 	}
@@ -37,7 +38,7 @@ void read_word(char *str){
 
 	int b=0; //boolean variable check multiple spaces
 	while(scanf("%c",&ch)==1){
-		if(b && ch==' '){
+		if(b && (ch==' ' || ch=='\n')){
 			b=0;
 			break;
 		}
