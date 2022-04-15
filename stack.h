@@ -1,7 +1,7 @@
 #ifndef __stack_h__
 #define __stack_h__
 
-#define STACK_TYPE double
+#define STACK_TYPE int
 
 // char get_stack(); // no side effect
 STACK_TYPE pop_stack();
