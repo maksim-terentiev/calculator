@@ -1,11 +1,11 @@
-.PHONY:	all help run clean reset
+.PHONY: all help run clean reset
 
 #Ignore errors
-.IGNORE:	clean reset
+.IGNORE: clean reset
 
 GCCOPT= -Wall
 
-all:	calculator translator
+all: calculator translator
 
 # удаление файлов *.o
 clean:
@@ -25,10 +25,14 @@ run: all
 	@echo "Run both programs"
 	./translator | ./calculator
 
-stack.o:	stack.h stack.c
+stack.o: stack.h stack.c
 	gcc $(GCCOPT) -c -o stack.o stack.c
+translator.o: stack.h translator.c
+	gcc $(GCCOPT) -c -o translator.o translator.c
+calculator.o: stack.h calculator.c
+	gcc $(GCCOPT) -c -o calculator.o calculator.c
 
-translator:	stack.o translator.c
-	gcc $(GCCOPT) -o translator stack.o translator.c
-calculator: stack.o calculator.c
-	gcc $(GCCOPT) -o calculator stack.o calculator.c
+translator: stack.o translator.o
+	gcc $(GCCOPT) -o translator stack.o translator.o
+calculator: stack.o calculator.o
+	gcc $(GCCOPT) -o calculator stack.o calculator.o
