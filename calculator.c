@@ -25,11 +25,16 @@ int main(){
 		}
 		else{
 			fprintf(stderr,
-				"Calculator error : Wrong operand \"%s\" ",str);
+				"E:Calculator Error : Wrong operand \"%s\"\n",
+				str);
 			exit(1);
 		}
 		read_word(str);
 	}
+	printf("%d\n",pop_stack());
+	if(!is_stack_empty())
+		fprintf(stderr,
+		"W:Calculator warning : Stack is not empty. Too many numbers?\n");
 	return 0;
 }
 void read_word(char *str){
@@ -45,7 +50,7 @@ void read_word(char *str){
 		if(ch!=' '){
 			if(p>=MAX_LEN-1){
 				fprintf(stderr,
-				    "Calculator error : Number is too long");
+				    "E:Calculator error : Number is too long\n");
 				exit(1);
 			}
 			b=1;
