@@ -3,21 +3,27 @@
 #include "stack.h"
 
 int main(){
-    int b, c, blch = 0, soprazenye = 0;
+    int b, c, blch = 0, soprazenye = 0, bylo = 0;
     while (((c = getchar()) != '=') && (c != '\n') && (c != EOF))
     {
         if (c == ' ') {soprazenye = 0;}
         else if ((c != '+') && (c != '-') && (c != '*') && (c != '/') && (c != '(') && (c != ')'))
         {
             if ((blch) && (!soprazenye))
-                fprintf (stderr, "An error message\n");
+                fprintf (stderr, "Got several operands one time\n");
             else if (soprazenye == 1)
+            {
                 printf("%c", c);
+            }
             else
             {
-                printf(" %c", c);
+                if (!bylo)
+                    printf("%c", c);
+                else
+                    printf(" %c", c);
                 blch = 1;
                 soprazenye = 1;
+                bylo = 1;
             }
         }
         else if (c == '(')
@@ -30,7 +36,7 @@ int main(){
         {
             if (!blch)
             {
-                fprintf (stderr, "An error message\n");
+                fprintf (stderr, "Not enough operands\n");
                 break;
             }
             while((c = pop_stack()) != '(')
@@ -90,7 +96,7 @@ int main(){
     {
         if (!blch)
         {
-            fprintf (stderr, "An error message\n");
+            fprintf (stderr, "Not enough operands\n");
             break;
         }
         c = pop_stack();
