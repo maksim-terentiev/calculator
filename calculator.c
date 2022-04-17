@@ -96,21 +96,21 @@ int operate_with_overflow(char op,int* res, ...){
 	case '+':
 		a=va_arg(args,int);
 		b=va_arg(args,int);
-		if(OF=__builtin_add_overflow(a,b,res))
+		if( (OF=__builtin_add_overflow(a,b,res)) )
 			fprintf(stderr,
 			"W:Calculator warning : Overflow while summation\n");
 		break;
 	case '-':
 		a=va_arg(args,int);
 		b=va_arg(args,int);
-		if(OF=__builtin_sub_overflow(a,b,res))
+		if( (OF=__builtin_sub_overflow(a,b,res)) )
 			fprintf(stderr,
 			"W:Calculator warning : Overflow while subtraction\n");
 		break;
 	case '*':
 		a=va_arg(args,int);
 		b=va_arg(args,int);
-		if(OF=__builtin_mul_overflow(a,b,res))
+		if( (OF=__builtin_mul_overflow(a,b,res)) )
 			fprintf(stderr,
 			"W:Calculator warning : Overflow while multiplication\n");
 		break;
