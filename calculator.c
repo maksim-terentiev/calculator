@@ -70,6 +70,8 @@ int is_operation(char *str){
 		return 1;
 	else if(str[0]=='/' && str[1]=='\0')
 		return 1;
+	else if(str[0]=='~' && str[1]=='\0')
+		return 1;
 	else
 		return 0;
 }
@@ -83,16 +85,30 @@ int is_number(char *str){
 
 void operate(char *str){ // perform operation from str
 	int a,b;
-	b=pop_stack();
-	a=pop_stack();
-	if     (str[0]=='+')
+	if     (str[0]=='+'){
+		b=pop_stack();
+		a=pop_stack();
 		put_stack(a+b);
-	else if(str[0]=='-')
+	}
+	else if(str[0]=='-'){
+		b=pop_stack();
+		a=pop_stack();
 		put_stack(a-b);
-	else if(str[0]=='*')
+	}
+	else if(str[0]=='*'){
+		b=pop_stack();
+		a=pop_stack();
 		put_stack(a*b);
-	else if(str[0]=='/')
+	}
+	else if(str[0]=='/'){
+		b=pop_stack();
+		a=pop_stack();
 		put_stack(a/b);
+	}
+	else if(str[0]=='~'){
+		a=pop_stack();
+		put_stack(-a);
+	}
 }
 
 STACK_TYPE str2number(char *str){
