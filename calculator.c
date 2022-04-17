@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include "stack.h"
 
-#define MAX_LEN 13
+#define MAX_LEN 11
 
 int is_number(char *str);
 int is_operation(char *str);
@@ -83,37 +84,80 @@ int is_number(char *str){
 	return 1;
 }
 
+
+// Magic don't touch
+// See 'https://gcc.gnu.org/onlinedocs/gcc/Integer-Overflow-Builtins.html'
+int operate_with_overflow(char op,int* res, ...){
+	va_list args;
+	va_start(args,res);
+	int a,b;
+	int OF=0;
+	switch(op){
+	case '+':
+		a=va_arg(args,int);
+		b=va_arg(args,int);
+		if(OF=__builtin_add_overflow(a,b,res))
+			fprintf(stderr,
+			"W:Calculator warning : Overflow while summation\n");
+		break;
+	case '-':
+		a=va_arg(args,int);
+		b=va_arg(args,int);
+		if(OF=__builtin_sub_overflow(a,b,res))
+			fprintf(stderr,
+			"W:Calculator warning : Overflow while subtraction\n");
+		break;
+	case '*':
+		a=va_arg(args,int);
+		b=va_arg(args,int);
+		if(OF=__builtin_mul_overflow(a,b,res))
+			fprintf(stderr,
+			"W:Calculator warning : Overflow while multiplication\n");
+		break;
+	case '~':
+		a=va_arg(args,int);
+		if(a==-2147483648){
+			fprintf(stderr,
+			"W:Calculator warning : Overflow while negativation\n");
+			OF=1;
+		}
+		*res=-a;
+		break;
+	default: // Newer should be happen
+		fprintf(stderr,
+		"E:INTERNAL ERROR in operate_with_overflow : wrong operation '%c'\n",
+		op);
+	}
+	return OF;
+}
+
 void operate(char *str){ // perform operation from str
 	int a,b;
-	if     (str[0]=='+'){
+	int res;
+	if     (str[0]=='+' || str[0]=='-' || str[0]=='*'){
 		b=pop_stack();
 		a=pop_stack();
-		put_stack(a+b);
+		operate_with_overflow(str[0],&res,a,b);
+		put_stack(res);
 	}
-	else if(str[0]=='-'){
-		b=pop_stack();
-		a=pop_stack();
-		put_stack(a-b);
-	}
-	else if(str[0]=='*'){
-		b=pop_stack();
-		a=pop_stack();
-		put_stack(a*b);
-	}
-	else if(str[0]=='/'){
+	else if(str[0]=='/'){ // There can't be overflow
 		b=pop_stack();
 		a=pop_stack();
 		put_stack(a/b);
 	}
 	else if(str[0]=='~'){
 		a=pop_stack();
-		put_stack(-a);
+		operate_with_overflow(str[0],&res,a);
+		put_stack(res);
 	}
 }
 
 STACK_TYPE str2number(char *str){
 #if STACK_TYPE==int
-	return atoi(str);
+	int num=atoi(str);
+	if(num<0)
+		fprintf(stderr,"W:Calculator warning : Overflow while input\n");
+	return num;
 #elif STACK_TYPE==double
 	return atof(str);
 #else
