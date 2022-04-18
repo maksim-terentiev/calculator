@@ -8,7 +8,7 @@ static int pointer=-1; // current head
 
 int put_stack(STACK_TYPE elem){
 	if(++pointer >= STACK_SIZE){
-		fprintf(stderr,"E:Stack error : Stack overflow\n");
+		fprintf(stderr,"E:Stack Error : Stack overflow\n");
 		exit(1);
 	}
 	stack[pointer]=elem;
@@ -30,7 +30,7 @@ STACK_TYPE pop_stack(){
 	if(pointer>=0)
 		return stack[pointer--];
 	else{
-		fprintf(stderr,"E:Stack error : Stack is empty\n");
+		fprintf(stderr,"E:Stack Error : Stack is empty\n");
 		exit(1);
 	}
 }

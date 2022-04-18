@@ -19,7 +19,7 @@ int main(){
 
 	while(str[0]!='\0'){
 		if(is_operation(str)){
-			operate(str); // perform operation in str
+			operate(str); // perform operation stored in str
 		}
 		else if(is_number(str)){
 			put_stack(str2number(str));
@@ -42,7 +42,7 @@ void read_word(char *str){
 	int p=0;
 	char ch;
 
-	int b=0; //boolean variable check multiple spaces
+	int b=0; // boolean variable to check multiple spaces
 	while(scanf("%c",&ch)==1){
 		if(b && (ch==' ' || ch=='\n')){
 			b=0;
@@ -51,7 +51,7 @@ void read_word(char *str){
 		if(ch!=' '){
 			if(p>=MAX_LEN-1){
 				fprintf(stderr,
-				    "E:Calculator error : Number is too long\n");
+				    "E:Calculator Error : Number is too long\n");
 				exit(1);
 			}
 			b=1;
@@ -118,15 +118,16 @@ int operate_with_overflow(char op,int* res, ...){
 		a=va_arg(args,int);
 		if(a==-2147483648){
 			fprintf(stderr,
-			"W:Calculator warning : Overflow while negativation\n");
+			"W:Calculator warning : Overflow while negation\n");
 			OF=1;
 		}
 		*res=-a;
 		break;
-	default: // Newer should be happen
+	default: // Never should be happen
 		fprintf(stderr,
 		"E:INTERNAL ERROR in operate_with_overflow : wrong operation '%c'\n",
 		op);
+		exit(2);
 	}
 	return OF;
 }
